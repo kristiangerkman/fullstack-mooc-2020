@@ -1,26 +1,62 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import ReactDOM from "react-dom";
 
-function App() {
+const Header = ({ course }) => <h1>{course}</h1>;
+
+const Part = ({ title, exercises }) => (
+  <p>
+    {title} {exercises}
+  </p>
+);
+
+const Content = ({ courses }) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Part
+        title={courses.course1.parts.part1.title}
+        exercises={courses.course1.parts.part1.exercises}
+      />
+      <Part
+        title={courses.course1.parts.part2.title}
+        exercises={courses.course1.parts.part2.exercises}
+      />
+      <Part
+        title={courses.course1.parts.part3.title}
+        exercises={courses.course1.parts.part3.exercises}
+      />
     </div>
   );
-}
+};
+
+const App = () => {
+  const courses = {
+    course1: {
+      title: "Half Stack application development",
+      parts: {
+        part1: {
+          title: "Fundamentals of React",
+          exercises: 10
+        },
+        part2: { title: "Using props to pass data", exercises: 7 },
+        part3: { title: "State of a component", exercises: 14 }
+      }
+    }
+  };
+  console.log(courses);
+  return (
+    <div>
+      <Header course={courses.course1.title} />
+      <Content courses={courses} />
+      <p>
+        Number of exercises{" "}
+        {courses.course1.parts.part1.exercises +
+          courses.course1.parts.part2.exercises +
+          courses.course1.parts.part3.exercises}
+      </p>
+    </div>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById("root"));
 
 export default App;
