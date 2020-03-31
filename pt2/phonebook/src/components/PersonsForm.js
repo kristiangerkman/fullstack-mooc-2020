@@ -3,8 +3,15 @@ import React from "react";
 const PersonsForm = ({ persons, setPersons, newPerson, setNewPerson }) => {
   const pHandler = e => {
     e.preventDefault();
-    const newPersons = persons.concat(newPerson);
-    setPersons(newPersons);
+    let names = [];
+    names = persons.map(p => p.name);
+    if (names.includes(newPerson.name)) {
+      window.alert(`The phonebook already has someone named ${newPerson.name}`);
+    } else {
+      const newPersons = persons.concat(newPerson);
+      setPersons(newPersons);
+      setNewPerson({ name: "", number: "" });
+    }
   };
 
   const onPChangeName = e => {
