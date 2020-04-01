@@ -10,14 +10,16 @@ const getAll = () => {
 };
 
 const create = newPerson => {
-  return axios
-    .post(baseURL, newPerson)
-    .then(r => r.data)
-    .catch(e => console.log("error handling create req: ", e));
+  return axios.post(baseURL, newPerson).then(r => r.data);
 };
 
 const update = (id, updatedPerson) => {
-  return axios.put(`${baseURL}/${id}`, updatedPerson).then(r => r.data);
+  return axios
+    .put(`${baseURL}/${id}`, updatedPerson)
+    .then(r => r.data)
+    .catch(e => {
+      console.log("error handling create req: ", e);
+    });
 };
 
 const deletePerson = id => {

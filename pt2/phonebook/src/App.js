@@ -12,9 +12,9 @@ const App = () => {
   const [filtered, setFiltered] = useState([]);
   const [isFilter, setIsFilter] = useState(false);
   const [notification, setNotification] = useState({
-    type: "",
+    type: "", //good or bad
     show: false,
-    name: ""
+    message: ""
   });
 
   useEffect(() => {

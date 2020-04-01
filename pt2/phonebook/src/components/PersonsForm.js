@@ -29,18 +29,32 @@ const PersonsForm = ({
           })
           .catch(e => {
             console.log(e);
-            alert(
-              `The person with name ${newPerson.name} has already been deleted`
-            );
+            setNotification({
+              type: "bad",
+              show: true,
+              message: `The person with name ${newPerson.name} has already been deleted`
+            });
             setPersons(persons.filter(p => p.id !== getId()));
           });
       }
     } else {
-      PersonsModule.create(newPerson);
+      PersonsModule.create(newPerson)
+        .then(r => {
+          setPersons(persons.concat(r));
+          setNotification({
+            type: "good",
+            show: true,
+            message: `Added ${newPerson.name} to the phonebook`
+          });
+        })
+        .catch(e => {
+          setNotification({
+            type: "bad",
+            show: true,
+            message: JSON.stringify(e.response.data)
+          });
+        });
 
-      const newPersons = persons.concat(newPerson);
-      setPersons(newPersons);
-      setNotification({ type: "add", show: true, name: newPerson.name });
       setNewPerson({ name: "", number: "" });
     }
   };

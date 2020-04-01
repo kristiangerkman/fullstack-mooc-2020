@@ -16,24 +16,21 @@ const Notification = ({ notification, setNotification }) => {
     }
   ];
 
-  setTimeout(() => setNotification({ type: "", show: false, name: "" }), 5000);
+  setTimeout(
+    () => setNotification({ type: "", show: false, message: "" }),
+    5000
+  );
 
-  if (notification.type === "delete") {
+  if (notification.type === "bad") {
     return (
       <div style={style[0]}>
-        <p>Deleted "{notification.name}" from the phonebook</p>
+        <p>{notification.message}</p>
       </div>
     );
-  } else if (notification.type === "add") {
+  } else if (notification.type === "good") {
     return (
       <div style={style[1]}>
-        <p>Added "{notification.name}" to the phonebook</p>
-      </div>
-    );
-  } else if (notification.type === "already") {
-    return (
-      <div style={style[0]}>
-        <p>"{notification.name}" was already deleted from the phonebook</p>
+        <p>{notification.message}</p>
       </div>
     );
   } else {
