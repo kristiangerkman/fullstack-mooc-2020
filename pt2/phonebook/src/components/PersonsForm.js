@@ -28,6 +28,7 @@ const PersonsForm = ({
             setPersons(persons.map(p => (p.id !== getId() ? p : r)));
           })
           .catch(e => {
+            console.log(e);
             alert(
               `The person with name ${newPerson.name} has already been deleted`
             );
