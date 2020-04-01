@@ -1,13 +1,36 @@
 import React from "react";
+import PersonsModule from "../modules/PersonsModule";
 
 const PersonsForm = ({ persons, setPersons, newPerson, setNewPerson }) => {
+  const getId = () => {
+    const p = persons.filter(p => p.name === newPerson.name);
+    return p[0].id;
+  };
+
   const pHandler = e => {
     e.preventDefault();
     let names = [];
     names = persons.map(p => p.name);
     if (names.includes(newPerson.name)) {
-      window.alert(`The phonebook already has someone named ${newPerson.name}`);
+      if (
+        window.confirm(
+          `The phonebook already has someone named "${newPerson.name}" do you want to update the number?`
+        )
+      ) {
+        PersonsModule.update(getId(), newPerson)
+          .then(r => {
+            setPersons(persons.map(p => (p.id !== getId() ? p : r)));
+          })
+          .catch(e => {
+            alert(
+              `The person with name ${newPerson.name} has already been deleted`
+            );
+            setPersons(persons.filter(p => p.id !== getId()));
+          });
+      }
     } else {
+      PersonsModule.create(newPerson);
+
       const newPersons = persons.concat(newPerson);
       setPersons(newPersons);
       setNewPerson({ name: "", number: "" });

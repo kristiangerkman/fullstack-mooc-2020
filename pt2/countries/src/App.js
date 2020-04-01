@@ -37,9 +37,13 @@ const App = () => {
           countries={countries}
           setFiltered={setFiltered}
         />
-        {filtered.map(c => (
-          <p key={c.name}>{c.name}</p>
-        ))}
+        {filtered.map(c => {
+          return (
+            <div>
+              <p key={c.name}>{c.name}</p>
+            </div>
+          );
+        })}
       </div>
     );
   } else if (filtered.length === 1) {

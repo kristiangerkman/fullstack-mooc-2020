@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonsForm";
 import Persons from "./components/Persons";
-import axios from "axios";
+import PersonsModule from "./modules/PersonsModule";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -12,10 +12,7 @@ const App = () => {
   const [isFilter, setIsFilter] = useState(false);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/persons")
-      .then(r => setPersons(r.data))
-      .catch(e => console.log(e));
+    PersonsModule.getAll().then(r => setPersons(r));
   }, [setPersons]);
 
   useEffect(() => {
@@ -45,7 +42,12 @@ const App = () => {
       />
 
       <h3>Numbers</h3>
-      <Persons persons={persons} filtered={filtered} isFilter={isFilter} />
+      <Persons
+        persons={persons}
+        setPersons={setPersons}
+        filtered={filtered}
+        isFilter={isFilter}
+      />
     </div>
   );
 };
