@@ -1,7 +1,13 @@
 import React from "react";
 import PersonsModule from "../modules/PersonsModule";
 
-const PersonsForm = ({ persons, setPersons, newPerson, setNewPerson }) => {
+const PersonsForm = ({
+  persons,
+  setPersons,
+  newPerson,
+  setNewPerson,
+  setNotification
+}) => {
   const getId = () => {
     const p = persons.filter(p => p.name === newPerson.name);
     return p[0].id;
@@ -33,6 +39,7 @@ const PersonsForm = ({ persons, setPersons, newPerson, setNewPerson }) => {
 
       const newPersons = persons.concat(newPerson);
       setPersons(newPersons);
+      setNotification({ type: "add", show: true, name: newPerson.name });
       setNewPerson({ name: "", number: "" });
     }
   };

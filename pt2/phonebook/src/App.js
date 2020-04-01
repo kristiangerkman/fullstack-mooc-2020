@@ -3,6 +3,7 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonsForm";
 import Persons from "./components/Persons";
 import PersonsModule from "./modules/PersonsModule";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -10,6 +11,11 @@ const App = () => {
   const [filter, setFilter] = useState("");
   const [filtered, setFiltered] = useState([]);
   const [isFilter, setIsFilter] = useState(false);
+  const [notification, setNotification] = useState({
+    type: "",
+    show: false,
+    name: ""
+  });
 
   useEffect(() => {
     PersonsModule.getAll().then(r => setPersons(r));
@@ -21,8 +27,20 @@ const App = () => {
     }
   }, [filter.length]);
 
+  const showNotification = () => {
+    if (notification.show) {
+      return (
+        <Notification
+          notification={notification}
+          setNotification={setNotification}
+        />
+      );
+    }
+  };
+
   return (
     <div>
+      {showNotification()}
       <h2>Phonebook</h2>
 
       <Filter
@@ -39,6 +57,7 @@ const App = () => {
         setPersons={setPersons}
         newPerson={newPerson}
         setNewPerson={setNewPerson}
+        setNotification={setNotification}
       />
 
       <h3>Numbers</h3>
@@ -46,7 +65,9 @@ const App = () => {
         persons={persons}
         setPersons={setPersons}
         filtered={filtered}
+        setFiltered={setFiltered}
         isFilter={isFilter}
+        setNotification={setNotification}
       />
     </div>
   );

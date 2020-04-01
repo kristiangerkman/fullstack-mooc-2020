@@ -21,9 +21,7 @@ const update = (id, updatedPerson) => {
 };
 
 const deletePerson = id => {
-  axios
-    .delete(`${baseURL}/${id}`)
-    .catch(e => console.log("error handling delete req: ", e));
+  return axios.delete(`${baseURL}/${id}`);
 };
 
 export default {
