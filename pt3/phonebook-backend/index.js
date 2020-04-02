@@ -45,7 +45,7 @@ app.get("/api/persons", (req, res) => {
   });
 });
 
-app.get("/api/persons/:id", (req, res) => {
+app.get("/api/persons/:id", (req, res, next) => {
   Person.findById(req.params.id)
     .then(p => {
       if (p !== undefined) {
@@ -57,8 +57,9 @@ app.get("/api/persons/:id", (req, res) => {
     .catch(e => next(e));
 });
 
-app.delete("/api/persons/:id", (req, res) => {
+app.delete("/api/persons/:id", (req, res, next) => {
   Person.findByIdAndRemove(req.params.id)
+    // eslint-disable-next-line no-unused-vars
     .then(result => {
       res.status(204).end();
     })
@@ -106,6 +107,6 @@ app.get("/info", (req, res) => {
 app.use(unknownEndpoint);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001; // eslint-disable-line
 app.listen(PORT);
 console.log(`Server running on port ${PORT}`);

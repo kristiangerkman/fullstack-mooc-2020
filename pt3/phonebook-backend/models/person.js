@@ -6,11 +6,12 @@ mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 mongoose.set("useUnifiedTopology", true);
 
-const url = process.env.MONGODB_URI;
+const url = process.env.MONGODB_URI; // eslint-disable-line
 console.log("connectiong to -", url);
 
 mongoose
   .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+  // eslint-disable-next-line no-unused-vars
   .then(result => {
     console.log("connected to MongoDB");
   })
