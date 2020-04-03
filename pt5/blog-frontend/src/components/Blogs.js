@@ -1,12 +1,19 @@
 import React from "react";
-
-const Blogs = ({ blogs }) => {
+import SingleBlog from "./SingleBlog";
+const Blogs = ({ user, blogs, setBlogs }) => {
+  blogs.sort((a, b) => {
+    return b.likes - a.likes;
+  });
   return (
     <div>
       {blogs.map(b => (
-        <p key={b.id}>
-          {b.title} {b.author}
-        </p>
+        <SingleBlog
+          key={b.id}
+          user={user}
+          blog={b}
+          setBlogs={setBlogs}
+          blogs={blogs}
+        />
       ))}
     </div>
   );

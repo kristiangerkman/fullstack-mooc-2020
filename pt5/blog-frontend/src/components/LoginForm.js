@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import loginService from "../services/login";
 import blogService from "../services/blog";
 
 const LoginForm = ({
   setUser,
-  credentials,
-  setCredentials,
+
   setNotification
 }) => {
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: ""
+  });
   const handleLogin = async e => {
     e.preventDefault();
     try {
@@ -15,8 +18,11 @@ const LoginForm = ({
       window.localStorage.setItem("loggedInUser", JSON.stringify(user));
 
       blogService.setToken(user.token);
+      setCredentials({
+        username: "",
+        password: ""
+      });
       setUser(user);
-      setCredentials({ username: "", password: "" });
     } catch (e) {
       setNotification({
         type: "bad",

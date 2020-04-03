@@ -3,6 +3,7 @@ import LoginForm from "./components/LoginForm";
 import NewBlogForm from "./components/NewBlogForm";
 import Blogs from "./components/Blogs";
 import Notification from "./components/Notification";
+import Togglable from "./components/Toggleable";
 import blogService from "./services/blog";
 
 const App = () => {
@@ -11,10 +12,7 @@ const App = () => {
     name: "",
     password: ""
   });
-  const [credentials, setCredentials] = useState({
-    username: "",
-    password: ""
-  });
+
   const [user, setUser] = useState(null);
 
   const [allBlogs, setAllBlogs] = useState([]);
@@ -50,12 +48,7 @@ const App = () => {
     return (
       <div>
         {showNotification()}
-        <LoginForm
-          setUser={setUser}
-          credentials={credentials}
-          setCredentials={setCredentials}
-          setNotification={setNotification}
-        />
+        <LoginForm setUser={setUser} setNotification={setNotification} />
       </div>
     );
   } else {
@@ -74,15 +67,18 @@ const App = () => {
           {" "}
           Log out{" "}
         </button>
-
-        <NewBlogForm
-          setNotification={setNotification}
-          user={user}
-          allBlogs={allBlogs}
-          setAllBlogs={setAllBlogs}
-        />
+        <br />
+        <br />
+        <Togglable buttonLabel="Create new blog">
+          <NewBlogForm
+            setNotification={setNotification}
+            user={user}
+            allBlogs={allBlogs}
+            setAllBlogs={setAllBlogs}
+          />
+        </Togglable>
         <h2>All blogs</h2>
-        <Blogs blogs={allBlogs} />
+        <Blogs blogs={allBlogs} user={user} setBlogs={setAllBlogs} />
       </div>
     );
   }
