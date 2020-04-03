@@ -1,17 +1,68 @@
 import React from "react";
+import loginService from "../services/login";
+import blogService from "../services/blog";
 
-const LoginForm = ({ setLoggedIn }) => {
-  const handleLogin = e => {
+const LoginForm = ({
+  setUser,
+  credentials,
+  setCredentials,
+  setNotification
+}) => {
+  const handleLogin = async e => {
     e.preventDefault();
-    setLoggedIn(true);
+    try {
+      const user = await loginService.login(credentials);
+      window.localStorage.setItem("loggedInUser", JSON.stringify(user));
+
+      blogService.setToken(user.token);
+      setUser(user);
+      setCredentials({ username: "", password: "" });
+    } catch (e) {
+      setNotification({
+        type: "bad",
+        show: true,
+        message: `Invalid username or password`
+      });
+    }
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <input type="text" name="username" placeholder="username..." /> <br />
-      <input type="password" name="password" placeholder="password..." /> <br />
-      <button type="submit">Login</button>
-    </form>
+    <div>
+      <h2>Log in to application</h2>
+      <form onSubmit={handleLogin}>
+        <div>
+          Username:{" "}
+          <input
+            type="text"
+            name="username"
+            value={credentials.username}
+            onChange={({ target }) =>
+              setCredentials({
+                username: target.value,
+                password: credentials.password
+              })
+            }
+            placeholder="username..."
+          />{" "}
+        </div>
+        <div>
+          Password:{" "}
+          <input
+            type="password"
+            name="password"
+            value={credentials.password}
+            onChange={({ target }) =>
+              setCredentials({
+                username: credentials.username,
+                password: target.value
+              })
+            }
+            placeholder="password..."
+          />{" "}
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
   );
 };
 
