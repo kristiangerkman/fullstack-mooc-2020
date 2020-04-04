@@ -5,13 +5,13 @@ import blogService from "../services/blog";
 const LoginForm = ({
   setUser,
 
-  setNotification
+  setNotification,
 }) => {
   const [credentials, setCredentials] = useState({
     username: "",
-    password: ""
+    password: "",
   });
-  const handleLogin = async e => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const user = await loginService.login(credentials);
@@ -20,14 +20,14 @@ const LoginForm = ({
       blogService.setToken(user.token);
       setCredentials({
         username: "",
-        password: ""
+        password: "",
       });
       setUser(user);
     } catch (e) {
       setNotification({
         type: "bad",
         show: true,
-        message: `Invalid username or password`
+        message: `Invalid username or password`,
       });
     }
   };
@@ -39,13 +39,14 @@ const LoginForm = ({
         <div>
           Username:{" "}
           <input
+            id="username"
             type="text"
             name="username"
             value={credentials.username}
             onChange={({ target }) =>
               setCredentials({
                 username: target.value,
-                password: credentials.password
+                password: credentials.password,
               })
             }
             placeholder="username..."
@@ -54,13 +55,14 @@ const LoginForm = ({
         <div>
           Password:{" "}
           <input
+            id="password"
             type="password"
             name="password"
             value={credentials.password}
             onChange={({ target }) =>
               setCredentials({
                 username: credentials.username,
-                password: target.value
+                password: target.value,
               })
             }
             placeholder="password..."

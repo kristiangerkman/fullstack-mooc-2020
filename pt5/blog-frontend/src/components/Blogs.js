@@ -22,21 +22,25 @@ const Blogs = ({ user, blogs, setBlogs }) => {
       console.log(e);
     }
   };
-
-  return (
-    <div>
-      {blogs.map((b) => (
-        <SingleBlog
-          key={b.id}
-          user={user}
-          blog={b}
-          setBlogs={setBlogs}
-          blogs={blogs}
-          likePost={likePost}
-        />
-      ))}
-    </div>
-  );
+  console.log(blogs);
+  if (blogs.length === 0) {
+    return <h3>No blog posts yet</h3>;
+  } else {
+    return (
+      <div>
+        {blogs.map((b) => (
+          <SingleBlog
+            key={b.id}
+            user={user}
+            blog={b}
+            setBlogs={setBlogs}
+            blogs={blogs}
+            likePost={likePost}
+          />
+        ))}
+      </div>
+    );
+  }
 };
 
 export default Blogs;
