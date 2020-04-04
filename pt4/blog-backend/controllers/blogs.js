@@ -3,7 +3,7 @@ const Blog = require("../models/blog");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 
-const getTokenFrom = req => {
+const getTokenFrom = (req) => {
   const auth = req.get("authorization");
   console.log(auth);
   if (auth && auth.toLowerCase().startsWith("bearer ")) {
@@ -15,7 +15,7 @@ const getTokenFrom = req => {
 //get all blog posts
 blogsRouter.get("/", async (req, res) => {
   const blogs = await Blog.find({}).populate("user", { username: 1, name: 1 });
-  res.json(blogs.map(b => b.toJSON()));
+  res.json(blogs.map((b) => b.toJSON()));
 });
 
 //get blog by id
@@ -45,7 +45,7 @@ blogsRouter.post("/", async (req, res, next) => {
     author: body.author,
     url: body.url,
     likes: 0,
-    user: user._id
+    user: user._id,
   });
 
   const savedBlog = await blog.save();
@@ -68,12 +68,12 @@ blogsRouter.put("/:id", async (req, res, next) => {
     title: body.title,
     author: body.author,
     url: body.url,
-    likes: body.likes
+    likes: body.likes,
   };
 
   const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, blog, {
-    new: true
-  });
+    new: true,
+  }).populate("user", { username: 1, name: 1 });
 
   res.json(updatedBlog.toJSON());
 });

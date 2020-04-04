@@ -1,42 +1,32 @@
 import React, { useState } from "react";
 import BlogService from "../services/blog";
 
-const Blogs = ({ user, blog, setBlogs, blogs }) => {
+const Blogs = ({ user, blog, setBlogs, blogs, likePost }) => {
   const [visible, setVisible] = useState(false);
 
   const hideWhenVisible = { display: visible ? "none" : "" };
   const showWhenVisible = { display: visible ? "" : "none" };
 
+  const handleLike = () => {
+    console.log(blog);
+    likePost(blog);
+  };
+
   const deletePost = async () => {
     if (window.confirm("Are you sure you want to delete this")) {
       try {
         await BlogService.deleteBlog(blog.id);
-        setBlogs(blogs.filter(b => b.id !== blog.id));
+        setBlogs(blogs.filter((b) => b.id !== blog.id));
       } catch (e) {
         console.log(e);
       }
     }
   };
 
-  const likePost = async () => {
-    const likedBlog = {
-      title: blog.title,
-      author: blog.author,
-      url: blog.url,
-      likes: blog.likes + 1
-    };
-    try {
-      const returnedBlog = await BlogService.update(blog.id, likedBlog);
-      console.log(returnedBlog);
-      setBlogs(blogs.map(b => (b.id !== returnedBlog.id ? b : returnedBlog)));
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   const toggleVisibility = () => {
     setVisible(!visible);
   };
+
   const deleteButton = () => {
     return blog.user.id === user.userId ? (
       <button style={styleP} onClick={deletePost}>
@@ -47,13 +37,13 @@ const Blogs = ({ user, blog, setBlogs, blogs }) => {
 
   const styleDiv = {
     border: "1px black solid",
-    marginBottom: "3px"
+    marginBottom: "3px",
   };
 
   const styleP = {
     marginRight: "5px",
     marginLeft: "5px",
-    marginBottom: "5px"
+    marginBottom: "5px",
   };
 
   return (
@@ -63,7 +53,7 @@ const Blogs = ({ user, blog, setBlogs, blogs }) => {
           style={{
             marginRight: "5px",
             marginLeft: "5px",
-            display: "inline-block"
+            display: "inline-block",
           }}
         >
           {blog.title} by {blog.author}
@@ -74,12 +64,12 @@ const Blogs = ({ user, blog, setBlogs, blogs }) => {
         <button onClick={toggleVisibility} style={showWhenVisible}>
           Hide
         </button>
-        <div style={showWhenVisible}>
+        <div style={showWhenVisible} className="togglableVisibility">
           <span style={{ ...styleP, display: "block" }}>{blog.url}</span>
           <span style={{ ...styleP, display: "inline-block" }}>
-            likes {blog.likes}
+            Likes {blog.likes}
           </span>
-          <button onClick={likePost} style={showWhenVisible}>
+          <button onClick={handleLike} style={showWhenVisible}>
             Like
           </button>
           <span style={{ ...styleP, display: "block" }}>{blog.author}</span>
