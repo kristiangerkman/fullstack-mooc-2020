@@ -69,7 +69,7 @@ const Blogs = ({ user, blog, setBlogs, blogs, likePost }) => {
           <span style={{ ...styleP, display: "inline-block" }}>
             Likes {blog.likes}
           </span>
-          <button onClick={handleLike} style={showWhenVisible}>
+          <button id="like-button" onClick={handleLike} style={showWhenVisible}>
             Like
           </button>
           <span style={{ ...styleP, display: "block" }}>{blog.author}</span>

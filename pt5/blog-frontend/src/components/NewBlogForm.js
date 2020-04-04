@@ -3,14 +3,14 @@ import blogService from "../services/blog";
 
 const NewBlogForm = ({ setNotification, user, allBlogs, setAllBlogs }) => {
   const [newBlog, setNewBlog] = useState({ title: "", author: "", url: "" });
-  const handleNewBlog = async e => {
+  const handleNewBlog = async (e) => {
     e.preventDefault();
     try {
       const newBlogObj = await blogService.create({
         title: newBlog.title,
         author: newBlog.author,
         url: newBlog.url,
-        userId: user.userId
+        userId: user.userId,
       });
 
       const tmp = [...allBlogs, newBlogObj];
@@ -19,12 +19,12 @@ const NewBlogForm = ({ setNotification, user, allBlogs, setAllBlogs }) => {
       setNewBlog({
         title: "",
         author: "",
-        url: ""
+        url: "",
       });
       setNotification({
         type: "good",
         show: true,
-        message: `a new blog "${newBlog.title}" by ${newBlog.author} added`
+        message: `a new blog "${newBlog.title}" by ${newBlog.author} added`,
       });
     } catch (e) {
       console.log(e);
@@ -37,6 +37,7 @@ const NewBlogForm = ({ setNotification, user, allBlogs, setAllBlogs }) => {
       <form onSubmit={handleNewBlog}>
         Title:
         <input
+          id="title"
           type="text"
           name="title"
           placeholder="title..."
@@ -45,13 +46,14 @@ const NewBlogForm = ({ setNotification, user, allBlogs, setAllBlogs }) => {
             setNewBlog({
               title: target.value,
               author: newBlog.author,
-              url: newBlog.url
+              url: newBlog.url,
             })
           }
         />{" "}
         <br />
         Author:
         <input
+          id="author"
           type="text"
           name="author"
           placeholder="author..."
@@ -60,13 +62,14 @@ const NewBlogForm = ({ setNotification, user, allBlogs, setAllBlogs }) => {
             setNewBlog({
               title: newBlog.title,
               author: target.value,
-              url: newBlog.url
+              url: newBlog.url,
             })
           }
         />{" "}
         <br />
         URL:
         <input
+          id="url"
           type="text"
           name="url"
           placeholder="url..."
@@ -75,12 +78,14 @@ const NewBlogForm = ({ setNotification, user, allBlogs, setAllBlogs }) => {
             setNewBlog({
               title: newBlog.title,
               author: newBlog.author,
-              url: target.value
+              url: target.value,
             })
           }
         />{" "}
         <br />
-        <button type="submit">Submit</button>
+        <button id="submit-new-blog" type="submit">
+          Submit
+        </button>
       </form>
     </div>
   );
