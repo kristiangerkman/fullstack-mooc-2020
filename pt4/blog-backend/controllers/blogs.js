@@ -51,7 +51,11 @@ blogsRouter.post("/", async (req, res, next) => {
   const savedBlog = await blog.save();
   user.blogs = user.blogs.concat(savedBlog._id);
   await user.save();
-  res.json(savedBlog.toJSON());
+  const toBeReturned = await Blog.findById(savedBlog._id).populate("user", {
+    username: 1,
+    name: 1,
+  });
+  res.json(toBeReturned.toJSON());
 });
 
 //delete blog post
