@@ -21,9 +21,9 @@ const App = ({ store }) => {
       type: "ZERO",
     });
   };
-  const all = Number(
-    store.getState().bad + store.getState().ok + store.getState().good
-  );
+  const all =
+    store.getState().bad + store.getState().ok + store.getState().good;
+
   return (
     <div>
       <button onClick={good}>good</button>
@@ -33,9 +33,19 @@ const App = ({ store }) => {
       <div>good {store.getState().good}</div>
       <div>ok {store.getState().ok}</div>
       <div>bad {store.getState().bad}</div>
-      <div>all {all}</div>
+      <div>all {all === 1 ? 0 : all}</div>
       <div>
-        average {Number(store.getState().good - store.getState().bad) / all}
+        average{" "}
+        {isNaN((store.getState().good - store.getState().bad) / all)
+          ? 0
+          : (store.getState().good - store.getState().bad) / all}
+      </div>
+      <div>
+        positive{" "}
+        {isNaN((store.getState().good / all) * 100)
+          ? 0
+          : (store.getState().good / all) * 100}{" "}
+        %
       </div>
     </div>
   );
