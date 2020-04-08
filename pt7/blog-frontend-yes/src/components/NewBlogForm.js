@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import blogService from "../services/blog";
+import { useDispatch } from "react-redux";
 
 const NewBlogForm = ({ setNotification, user, allBlogs, setAllBlogs }) => {
   const [newBlog, setNewBlog] = useState({ title: "", author: "", url: "" });
   const handleNewBlog = async (e) => {
     e.preventDefault();
+    console.log();
     try {
       const newBlogObj = await blogService.create({
-        title: newBlog.title,
-        author: newBlog.author,
-        url: newBlog.url,
+        title: e.target.title.value,
+        author: e.target.author.value,
+        url: e.target.url.value,
         userId: user.userId,
       });
 

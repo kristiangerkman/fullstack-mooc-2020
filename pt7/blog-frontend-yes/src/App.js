@@ -7,6 +7,9 @@ import Notification from "./components/Notification";
 import Togglable from "./components/Toggleable";
 import blogService from "./services/blog";
 
+import { useDispatch } from "react-redux";
+import { initBlogs } from "./reducers/blogsReducer";
+
 const App = () => {
   const [user, setUser] = useState(null);
   const [allBlogs, setAllBlogs] = useState([]);
@@ -16,16 +19,16 @@ const App = () => {
     show: false,
     message: "",
   });
-
+  const dispatch = useDispatch();
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedInUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
       blogService.setToken(user.token);
-      blogService.getAll().then((r) => setAllBlogs(r));
+      dispatch(initBlogs());
     }
-  }, [setUser]);
+  }, [setUser, dispatch]);
 
   const showNotification = () => {
     if (notification.show) {
@@ -95,7 +98,7 @@ const App = () => {
           />
         </Togglable>
         <h2>All blogs</h2>
-        <Blogs blogs={allBlogs} user={user} setBlogs={setAllBlogs} />
+        <Blogs user={user} />
       </div>
     );
   }

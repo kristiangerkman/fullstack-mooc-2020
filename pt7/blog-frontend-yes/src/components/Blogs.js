@@ -1,26 +1,18 @@
 import React from "react";
 import SingleBlog from "./SingleBlog";
-import BlogService from "../services/blog";
+import { useSelector, useDispatch } from "react-redux";
+import { likeBlog } from "../reducers/blogsReducer";
 
-const Blogs = ({ user, blogs, setBlogs }) => {
+const Blogs = ({ user }) => {
+  const dispatch = useDispatch();
+  const blogs = useSelector((state) => state.blogs);
+
   blogs.sort((a, b) => {
     return b.likes - a.likes;
   });
 
   const likePost = async (blog) => {
-    const likedBlog = {
-      title: blog.title,
-      author: blog.author,
-      url: blog.url,
-      likes: blog.likes + 1,
-    };
-    try {
-      const returnedBlog = await BlogService.update(blog.id, likedBlog);
-      console.log(returnedBlog);
-      setBlogs(blogs.map((b) => (b.id !== returnedBlog.id ? b : returnedBlog)));
-    } catch (e) {
-      console.log(e);
-    }
+    dispatch(likeBlog(blog));
   };
   console.log(blogs);
   if (blogs.length === 0) {
@@ -33,7 +25,7 @@ const Blogs = ({ user, blogs, setBlogs }) => {
             key={b.id}
             user={user}
             blog={b}
-            setBlogs={setBlogs}
+            setBlogs={() => console.log("asd")}
             blogs={blogs}
             likePost={likePost}
           />
