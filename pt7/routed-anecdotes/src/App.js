@@ -5,17 +5,7 @@ import Menu from "./components/Menu";
 import About from "./components/About";
 import CreateNew from "./components/CreateNew";
 import Footer from "./components/Footer";
-
-const AnecdoteList = ({ anecdotes }) => (
-  <div>
-    <h2>Anecdotes</h2>
-    <ul>
-      {anecdotes.map((anecdote) => (
-        <li key={anecdote.id}>{anecdote.content}</li>
-      ))}
-    </ul>
-  </div>
-);
+import AnecdoteList from "./components/AnecdotesList";
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
@@ -56,14 +46,24 @@ const App = () => {
   };
 
   return (
-    <div>
+    <Router>
       <h1>Software anecdotes</h1>
       <Menu />
-      <AnecdoteList anecdotes={anecdotes} />
-      <About />
-      <CreateNew addNew={addNew} />
+      <div>
+        <Switch>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/create">
+            <CreateNew addNew={addNew} />
+          </Route>
+          <Route path="/">
+            <AnecdoteList anecdotes={anecdotes} />
+          </Route>
+        </Switch>
+      </div>
       <Footer />
-    </div>
+    </Router>
   );
 };
 
