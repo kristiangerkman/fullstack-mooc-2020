@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useField } from "../hooks";
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,52 +9,61 @@ import {
 } from "react-router-dom";
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState("");
-  const [author, setAuthor] = useState("");
-  const [info, setInfo] = useState("");
+  const content = useField("text");
+  const author = useField("text");
+  const info = useField("text");
+
   const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.field.value,
+      author: author.field.value,
+      info: info.field.value,
       votes: 0,
     });
-    props.setNotification(`a new anecdote ${content} created!`);
+    props.setNotification(`a new anecdote ${content.field.value} created!`);
     setTimeout(() => props.setNotification(""), 10000);
     history.push("/");
   };
+  const reset = () => {
+    author.reset();
+    content.reset();
+    info.reset();
+    /* :DDDDD??????????????????
+     switch (document.activeElement.id) {
+      case "author":
+        return author.reset;
+      case "content":
+        return content.reset;
+      case "info":
+        return info.reset;
+      default:
+        return;
+    } */
+  };
+
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} autocomplete="off">
         <div>
           content
-          <input
-            name="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
+          <input id="content" {...content.field} />
         </div>
         <div>
           author
-          <input
-            name="author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-          />
+          <input id="author" {...author.field} />
         </div>
         <div>
           url for more info
-          <input
-            name="info"
-            value={info}
-            onChange={(e) => setInfo(e.target.value)}
-          />
+          <input id="info" {...info.field} />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
+        <button type="button" onClick={reset}>
+          reset
+        </button>
       </form>
     </div>
   );
