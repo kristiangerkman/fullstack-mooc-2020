@@ -6,6 +6,7 @@ import About from "./components/About";
 import CreateNew from "./components/CreateNew";
 import Footer from "./components/Footer";
 import AnecdoteList from "./components/AnecdotesList";
+import SingleAnec from "./components/SingleAnec";
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
@@ -14,14 +15,14 @@ const App = () => {
       author: "Jez Humble",
       info: "https://martinfowler.com/bliki/FrequencyReducesDifficulty.html",
       votes: 0,
-      id: "1",
+      id: 1,
     },
     {
       content: "Premature optimization is the root of all evil",
       author: "Donald Knuth",
       info: "http://wiki.c2.com/?PrematureOptimization",
       votes: 0,
-      id: "2",
+      id: 2,
     },
   ]);
 
@@ -45,17 +46,29 @@ const App = () => {
     setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)));
   };
 
+  const showNotification = () => {
+    if (notification !== "") {
+      return <div>{notification}</div>;
+    } else {
+      return null;
+    }
+  };
+
   return (
     <Router>
       <h1>Software anecdotes</h1>
       <Menu />
+      {showNotification()}
       <div>
         <Switch>
           <Route path="/about">
             <About />
           </Route>
           <Route path="/create">
-            <CreateNew addNew={addNew} />
+            <CreateNew addNew={addNew} setNotification={setNotification} />
+          </Route>
+          <Route path="/anecdotes/:id">
+            <SingleAnec anecs={anecdotes} />
           </Route>
           <Route path="/">
             <AnecdoteList anecdotes={anecdotes} />
