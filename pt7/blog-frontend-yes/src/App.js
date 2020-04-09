@@ -37,19 +37,21 @@ const App = () => {
   }, [user, dispatch]);
   if (user === null) {
     return (
-      <Router>
-        <Switch>
-          <Route path="/register">
-            <RegisterForm />
-          </Route>
-          <Route path="/login">
-            <LoginForm />
-          </Route>
-          <Route path="/">
-            <LoginForm />
-          </Route>
-        </Switch>
-      </Router>
+      <div className="container">
+        <Router>
+          <Switch>
+            <Route path="/register">
+              <RegisterForm />
+            </Route>
+            <Route path="/login">
+              <LoginForm />
+            </Route>
+            <Route path="/">
+              <LoginForm />
+            </Route>
+          </Switch>
+        </Router>
+      </div>
     );
   }
   return (

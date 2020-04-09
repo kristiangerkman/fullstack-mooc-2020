@@ -18,34 +18,62 @@ const RegisterForm = () => {
   };
 
   return (
-    <div>
-      <h2>Create new user to application</h2>
-      <form onSubmit={handleRegister} autoComplete="off">
-        <div>
-          Username:{" "}
-          <input
-            id="username"
-            type="text"
-            name="username"
-            placeholder="username..."
-          />{" "}
+    <div className="modal-dialog">
+      <div className="main-section col-sm-10">
+        <div className="modal-content">
+          <br />
+          <h2 className="text-center">Register</h2>
+          <form onSubmit={handleRegister} autoComplete="off">
+            <div className="form-group col-12">
+              <label for="username">Username</label>
+              <input
+                className="form-control"
+                className="form-control"
+                id="username"
+                type="text"
+                name="username"
+                placeholder="Enter username"
+              />{" "}
+            </div>
+            <div className="form-group col-12">
+              <label for="name">Name</label>
+              <input
+                className="form-control"
+                id="name"
+                type="text"
+                name="name"
+                placeholder="Enter name"
+              />{" "}
+            </div>
+            <div className="form-group col-12">
+              <label for="password">Password</label>
+              <input
+                className="form-control"
+                id="password"
+                type="password"
+                name="password"
+                placeholder="Enter password"
+              />{" "}
+            </div>
+            <div className="col-12 form-group">
+              <button
+                className="btn btn-primary col-3 float-left"
+                type="submit"
+              >
+                Create
+              </button>
+              <br />
+            </div>
+          </form>
+          <div className="col-12 form-group">
+            <small>
+              <Link className="float-left" to="/">
+                already have and account?
+              </Link>
+            </small>
+          </div>
         </div>
-        <div>
-          Name:{" "}
-          <input id="name" type="text" name="name" placeholder="name..." />{" "}
-        </div>
-        <div>
-          Password:{" "}
-          <input
-            id="password"
-            type="password"
-            name="password"
-            placeholder="password..."
-          />{" "}
-        </div>
-        <button type="submit">Create</button>
-      </form>
-      <Link to="/">already have and account?</Link>
+      </div>
     </div>
   );
 };

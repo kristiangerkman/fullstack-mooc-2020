@@ -1,9 +1,16 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useHistory,
+} from "react-router-dom";
 
 const Menu = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const user = useSelector((state) => state.user);
   const style = {
     display: "inline-block",
@@ -25,6 +32,7 @@ const Menu = () => {
         onClick={() => {
           window.localStorage.clear();
           dispatch({ type: "LOGOUT_USER" });
+          history.push("/");
         }}
       >
         {" "}
