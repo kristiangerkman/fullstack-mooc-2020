@@ -7,6 +7,7 @@ import Notification from "./components/Notification";
 import Togglable from "./components/Toggleable";
 import Users from "./components/Users";
 import User from "./components/User";
+import Menu from "./components/Menu";
 import SingleBlog from "./components/SingleBlog";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -58,33 +59,25 @@ const App = () => {
   } else {
     return (
       <Router>
-        <h2>Blog app thing </h2>
+        <Menu />
         <Notification />
-        <p>Logged in as {user.name}</p>
-        <button
-          type="submit"
-          onClick={() => {
-            window.localStorage.clear();
-            dispatch({ type: "LOGOUT_USER" });
-          }}
-        >
-          {" "}
-          Log out{" "}
-        </button>
-        <br />
-        <br />
-        <Togglable buttonLabel="Create new blog">
-          <NewBlogForm user={user} />
-        </Togglable>
-        <h2>All blogs</h2>
-        <Blogs user={user} />
-        <Users />
+        <h2>Blog app thing </h2>
         <Switch>
           <Route path="/users/:id">
             <User />
           </Route>
+          <Route path="/users">
+            <Users />
+          </Route>
           <Route path="/blogs/:id">
             <SingleBlog />
+          </Route>
+          <Route path="/">
+            <Togglable buttonLabel="Create new blog">
+              <NewBlogForm user={user} />
+            </Togglable>
+            <h2>All blogs</h2>
+            <Blogs user={user} />
           </Route>
         </Switch>
       </Router>

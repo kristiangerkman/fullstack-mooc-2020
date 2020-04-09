@@ -2,14 +2,15 @@ import React from "react";
 import { useDispatch } from "react-redux";
 
 import { createBlog } from "../reducers/blogsReducer";
+import { updateAllUsers } from "../reducers/allUsersReducer";
 
 const NewBlogForm = ({ user }) => {
   const dispatch = useDispatch();
 
-  const handleNewBlog = (e) => {
+  const handleNewBlog = async (e) => {
     e.preventDefault();
 
-    dispatch(
+    await dispatch(
       createBlog({
         title: e.target.title.value,
         author: e.target.author.value,
@@ -17,6 +18,7 @@ const NewBlogForm = ({ user }) => {
         userId: user.userId,
       })
     );
+    await dispatch(updateAllUsers(user.userId));
   };
 
   return (
