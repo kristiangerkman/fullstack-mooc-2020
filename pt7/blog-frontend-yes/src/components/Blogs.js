@@ -1,32 +1,30 @@
 import React from "react";
-import SingleBlog from "./SingleBlog";
-import { useSelector, useDispatch } from "react-redux";
-import { likeBlog } from "../reducers/blogsReducer";
+import { useSelector } from "react-redux";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-const Blogs = ({ user }) => {
-  const dispatch = useDispatch();
+const Blogs = () => {
   const blogs = useSelector((state) => state.blogs);
 
   blogs.sort((a, b) => {
     return b.likes - a.likes;
   });
 
-  const likePost = async (blog) => {
-    dispatch(likeBlog(blog));
+  const styleDiv = {
+    border: "1px black solid",
+    marginBottom: "3px",
   };
+
   if (blogs.length === 0) {
     return <h3>No blog posts yet</h3>;
   } else {
     return (
       <div>
         {blogs.map((b) => (
-          <SingleBlog
-            key={b.id}
-            user={user}
-            blog={b}
-            blogs={blogs}
-            likePost={likePost}
-          />
+          <div key={b.id} style={styleDiv}>
+            <Link to={`/blogs/${b.id}`}>
+              {b.title} by {b.author}
+            </Link>
+          </div>
         ))}
       </div>
     );

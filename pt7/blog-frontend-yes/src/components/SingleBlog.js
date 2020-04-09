@@ -1,27 +1,32 @@
-import React, { useState } from "react";
-import { deleteBlog } from "../reducers/blogsReducer";
-import { useDispatch } from "react-redux";
+import React from "react";
+import { deleteBlog, likeBlog } from "../reducers/blogsReducer";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+} from "react-router-dom";
 
-const Blogs = ({ user, blog, setBlogs, blogs, likePost }) => {
-  const [visible, setVisible] = useState(false);
-
-  const hideWhenVisible = { display: visible ? "none" : "" };
-  const showWhenVisible = { display: visible ? "" : "none" };
+const SingleBlog = () => {
   const dispatch = useDispatch();
+  const id = useParams().id;
+  const user = useSelector((state) => state.user);
+  const blog = useSelector((state) => state.blogs.find((b) => b.id === id));
 
-  const handleLike = () => {
-    console.log(blog);
-    likePost(blog);
+  if (!blog) {
+    return <p>404</p>;
+  }
+
+  const likePost = async () => {
+    dispatch(likeBlog(blog));
   };
 
   const deletePost = async () => {
     if (window.confirm("Are you sure you want to delete this")) {
       dispatch(deleteBlog(blog.id));
     }
-  };
-
-  const toggleVisibility = () => {
-    setVisible(!visible);
   };
 
   const deleteButton = () => {
@@ -32,11 +37,6 @@ const Blogs = ({ user, blog, setBlogs, blogs, likePost }) => {
     ) : null;
   };
 
-  const styleDiv = {
-    border: "1px black solid",
-    marginBottom: "3px",
-  };
-
   const styleP = {
     marginRight: "5px",
     marginLeft: "5px",
@@ -45,36 +45,16 @@ const Blogs = ({ user, blog, setBlogs, blogs, likePost }) => {
 
   return (
     <div>
-      <div style={styleDiv}>
-        <p
-          style={{
-            marginRight: "5px",
-            marginLeft: "5px",
-            display: "inline-block",
-          }}
-        >
-          {blog.title} by {blog.author}
-        </p>
-        <button onClick={toggleVisibility} style={hideWhenVisible}>
-          Show
-        </button>
-        <button onClick={toggleVisibility} style={showWhenVisible}>
-          Hide
-        </button>
-        <div style={showWhenVisible} className="togglableVisibility">
-          <span style={{ ...styleP, display: "block" }}>{blog.url}</span>
-          <span style={{ ...styleP, display: "inline-block" }}>
-            Likes {blog.likes}
-          </span>
-          <button id="like-button" onClick={handleLike} style={showWhenVisible}>
-            Like
-          </button>
-          <span style={{ ...styleP, display: "block" }}>{blog.author}</span>
-          {deleteButton()}
-        </div>
-      </div>
+      <h2>
+        {blog.title} by {blog.author}
+      </h2>
+      <a href={blog.url}>{blog.url}</a>
+      <p>{blog.likes} likes</p>
+      <button onClick={likePost}>Like</button>
+      <p>added by {blog.user.name}</p>
+      {deleteButton()}
     </div>
   );
 };
 
-export default Blogs;
+export default SingleBlog;

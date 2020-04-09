@@ -4,7 +4,12 @@ const User = require("../models/user");
 
 usersRouter.get("/", async (req, res) => {
   const users = await User.find({}).populate("blogs");
-  res.json(users.map(u => u.toJSON()));
+  res.json(users.map((u) => u.toJSON()));
+});
+
+usersRouter.get("/:id", async (req, res) => {
+  const user = await User.findById(req.params.id).populate("blogs");
+  res.json(user.toJSON());
 });
 
 usersRouter.post("/", async (req, res) => {
@@ -22,7 +27,7 @@ usersRouter.post("/", async (req, res) => {
   const user = new User({
     username: body.username,
     name: body.name,
-    passwordHash
+    passwordHash,
   });
 
   const savedUser = await user.save();
