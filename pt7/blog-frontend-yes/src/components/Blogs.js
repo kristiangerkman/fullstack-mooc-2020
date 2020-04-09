@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
+import { Table } from "react-bootstrap";
 const Blogs = () => {
   const blogs = useSelector((state) => state.blogs);
 
@@ -19,13 +19,20 @@ const Blogs = () => {
   } else {
     return (
       <div>
-        {blogs.map((b) => (
-          <div key={b.id} style={styleDiv}>
-            <Link to={`/blogs/${b.id}`}>
-              {b.title} by {b.author}
-            </Link>
-          </div>
-        ))}
+        <Table striped>
+          <tbody>
+            {blogs.map((b) => (
+              <tr key={b.id}>
+                <td>
+                  <Link to={`/blogs/${b.id}`}>
+                    {b.title} by {b.author}
+                  </Link>
+                </td>
+                <td>{b.author}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       </div>
     );
   }

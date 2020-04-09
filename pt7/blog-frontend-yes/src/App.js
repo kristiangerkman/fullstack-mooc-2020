@@ -53,29 +53,31 @@ const App = () => {
     );
   }
   return (
-    <Router>
-      <Menu />
-      <Notification />
-      <h2>Blog app thing </h2>
-      <Switch>
-        <Route path="/users/:id">
-          <User />
-        </Route>
-        <Route path="/users">
-          <Users />
-        </Route>
-        <Route path="/blogs/:id">
-          <SingleBlog />
-        </Route>
-        <Route path="/">
-          <Togglable buttonLabel="Create new blog">
-            <NewBlogForm user={user} />
-          </Togglable>
-          <h2>All blogs</h2>
-          <Blogs user={user} />
-        </Route>
-      </Switch>
-    </Router>
+    <div className="container">
+      <Router>
+        <Menu />
+        <Notification />
+        <h2>Blog app thing </h2>
+        <Switch>
+          <Route path="/users/:id">
+            <User />
+          </Route>
+          <Route path="/users">
+            <Users />
+          </Route>
+          <Route path="/blogs/:id">
+            <SingleBlog />
+          </Route>
+          <Route path="/">
+            <Togglable buttonLabel="Create new blog">
+              <NewBlogForm user={user} />
+            </Togglable>
+            <h2>All blogs</h2>
+            <Blogs user={user} />
+          </Route>
+        </Switch>
+      </Router>
+    </div>
   );
 };
 
