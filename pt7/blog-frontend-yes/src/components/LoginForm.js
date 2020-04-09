@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../reducers/userReducer";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 const LoginForm = ({ setUser }) => {
   const [credentials, setCredentials] = useState({
@@ -52,6 +53,7 @@ const LoginForm = ({ setUser }) => {
         <button id="login-button" type="submit">
           Login
         </button>
+        <Link to="/register">Don't have an account?</Link>
       </form>
     </div>
   );

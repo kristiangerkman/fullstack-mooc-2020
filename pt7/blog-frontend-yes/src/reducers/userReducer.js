@@ -1,6 +1,6 @@
 import loginService from "../services/login";
 import blogService from "../services/blog";
-//import userService from "../services/user";
+import userService from "../services/user";
 
 export const initUser = () => {
   return async (dispatch) => {
@@ -29,8 +29,22 @@ export const loginUser = (credential) => {
   };
 };
 
-export const registerUser = () => {
-  return async (dispatch) => {};
+export const registerUser = (username, name, password) => {
+  return async (dispatch) => {
+    const credential = { username, name, password };
+    try {
+      await userService.create(credential);
+      const user = await loginService.login({
+        username: credential.username,
+        password: credential.password,
+      });
+      dispatch({ type: "LOGIN_USER", data: user });
+      blogService.setToken(user.token);
+      window.localStorage.setItem("loggedInUser", JSON.stringify(user));
+    } catch (e) {
+      console.log(e);
+    }
+  };
 };
 
 const reducer = (state = null, action) => {
@@ -38,8 +52,6 @@ const reducer = (state = null, action) => {
     case "INIT_USER":
       return action.data;
     case "LOGIN_USER":
-      return action.data;
-    case "REG_USER":
       return action.data;
     case "LOGOUT_USER":
       return null;
