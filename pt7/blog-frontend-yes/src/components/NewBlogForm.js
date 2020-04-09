@@ -1,36 +1,22 @@
-import React, { useState } from "react";
-import blogService from "../services/blog";
+import React from "react";
 import { useDispatch } from "react-redux";
 
-const NewBlogForm = ({ setNotification, user, allBlogs, setAllBlogs }) => {
-  const [newBlog, setNewBlog] = useState({ title: "", author: "", url: "" });
-  const handleNewBlog = async (e) => {
+import { createBlog } from "../reducers/blogsReducer";
+
+const NewBlogForm = ({ user }) => {
+  const dispatch = useDispatch();
+
+  const handleNewBlog = (e) => {
     e.preventDefault();
-    console.log();
-    try {
-      const newBlogObj = await blogService.create({
+
+    dispatch(
+      createBlog({
         title: e.target.title.value,
         author: e.target.author.value,
         url: e.target.url.value,
         userId: user.userId,
-      });
-
-      const tmp = [...allBlogs, newBlogObj];
-      setAllBlogs(tmp);
-
-      setNewBlog({
-        title: "",
-        author: "",
-        url: "",
-      });
-      setNotification({
-        type: "good",
-        show: true,
-        message: `a new blog "${newBlog.title}" by ${newBlog.author} added`,
-      });
-    } catch (e) {
-      console.log(e);
-    }
+      })
+    );
   };
 
   return (
@@ -43,14 +29,6 @@ const NewBlogForm = ({ setNotification, user, allBlogs, setAllBlogs }) => {
           type="text"
           name="title"
           placeholder="title..."
-          value={newBlog.title}
-          onChange={({ target }) =>
-            setNewBlog({
-              title: target.value,
-              author: newBlog.author,
-              url: newBlog.url,
-            })
-          }
         />{" "}
         <br />
         Author:
@@ -59,32 +37,10 @@ const NewBlogForm = ({ setNotification, user, allBlogs, setAllBlogs }) => {
           type="text"
           name="author"
           placeholder="author..."
-          value={newBlog.author}
-          onChange={({ target }) =>
-            setNewBlog({
-              title: newBlog.title,
-              author: target.value,
-              url: newBlog.url,
-            })
-          }
         />{" "}
         <br />
         URL:
-        <input
-          id="url"
-          type="text"
-          name="url"
-          placeholder="url..."
-          value={newBlog.url}
-          onChange={({ target }) =>
-            setNewBlog({
-              title: newBlog.title,
-              author: newBlog.author,
-              url: target.value,
-            })
-          }
-        />{" "}
-        <br />
+        <input id="url" type="text" name="url" placeholder="url..." /> <br />
         <button id="submit-new-blog" type="submit">
           Submit
         </button>

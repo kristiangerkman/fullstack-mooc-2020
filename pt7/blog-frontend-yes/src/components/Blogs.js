@@ -14,7 +14,6 @@ const Blogs = ({ user }) => {
   const likePost = async (blog) => {
     dispatch(likeBlog(blog));
   };
-  console.log(blogs);
   if (blogs.length === 0) {
     return <h3>No blog posts yet</h3>;
   } else {
@@ -25,7 +24,6 @@ const Blogs = ({ user }) => {
             key={b.id}
             user={user}
             blog={b}
-            setBlogs={() => console.log("asd")}
             blogs={blogs}
             likePost={likePost}
           />

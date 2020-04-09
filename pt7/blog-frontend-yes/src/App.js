@@ -5,41 +5,22 @@ import NewBlogForm from "./components/NewBlogForm";
 import Blogs from "./components/Blogs";
 import Notification from "./components/Notification";
 import Togglable from "./components/Toggleable";
-import blogService from "./services/blog";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { initBlogs } from "./reducers/blogsReducer";
-
+import { initUser } from "./reducers/userReducer";
 const App = () => {
-  const [user, setUser] = useState(null);
-  const [allBlogs, setAllBlogs] = useState([]);
+  const user = useSelector((state) => state.user);
   const [register, setRegister] = useState(false);
-  const [notification, setNotification] = useState({
-    type: "", //good or bad
-    show: false,
-    message: "",
-  });
   const dispatch = useDispatch();
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedInUser");
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      blogService.setToken(user.token);
+    if (user === null) {
+      dispatch(initUser());
+    }
+    if (user !== null) {
       dispatch(initBlogs());
     }
-  }, [setUser, dispatch]);
-
-  const showNotification = () => {
-    if (notification.show) {
-      return (
-        <Notification
-          notification={notification}
-          setNotification={setNotification}
-        />
-      );
-    }
-  };
+  }, [user, dispatch]);
 
   const regiserButtonHandler = () => {
     setRegister(!register);
@@ -49,39 +30,35 @@ const App = () => {
     if (register) {
       return (
         <div>
-          {showNotification()}
-          <RegisterForm
-            setNotification={setNotification}
-            register={register}
-            setRegister={setRegister}
-          />
+          <Notification />
+          <RegisterForm register={register} setRegister={setRegister} />
           <button onClick={regiserButtonHandler}>Cancel</button>
         </div>
       );
     } else {
       return (
         <div>
-          {showNotification()}
-          <LoginForm setUser={setUser} setNotification={setNotification} />
+          <Notification />
+          <LoginForm />
           <button onClick={regiserButtonHandler}>Register</button>
         </div>
       );
     }
   };
 
-  if (!user) {
+  if (user === null) {
     return <div>{loginRegister()}</div>;
   } else {
     return (
       <div>
         <h2>Blog app thing </h2>
-        {showNotification()}
+        <Notification />
         <p>Logged in as {user.name}</p>
         <button
           type="submit"
           onClick={() => {
             window.localStorage.clear();
-            setUser(null);
+            dispatch({ type: "LOGOUT_USER" });
           }}
         >
           {" "}
@@ -90,12 +67,7 @@ const App = () => {
         <br />
         <br />
         <Togglable buttonLabel="Create new blog">
-          <NewBlogForm
-            setNotification={setNotification}
-            user={user}
-            allBlogs={allBlogs}
-            setAllBlogs={setAllBlogs}
-          />
+          <NewBlogForm user={user} />
         </Togglable>
         <h2>All blogs</h2>
         <Blogs user={user} />
