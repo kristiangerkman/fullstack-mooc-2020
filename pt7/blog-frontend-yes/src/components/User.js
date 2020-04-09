@@ -11,6 +11,9 @@ import {
 const User = () => {
   const id = useParams().id;
   const user = useSelector((state) => state.users.find((u) => u.id === id));
+  if (!user) {
+    return null;
+  }
   return (
     <div>
       <h2>{user.name}</h2>

@@ -31,12 +31,33 @@ export const likeBlog = (blog) => {
     author: blog.author,
     url: blog.url,
     likes: blog.likes + 1,
+    comments: [...blog.comments],
   };
   console.log(blog.id, toBelikedBlog);
   return async (dispatch) => {
     try {
       const likedBlog = await blogService.update(blog.id, toBelikedBlog);
       dispatch({ type: "LIKE_BLOG", data: { likedBlog } });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const commentBlog = (blog, comment) => {
+  const toCommentedBlog = {
+    title: blog.title,
+    author: blog.author,
+    url: blog.url,
+    likes: blog.likes,
+    comments: [...blog.comments],
+    comment: comment,
+  };
+
+  return async (dispatch) => {
+    try {
+      const commentedBlog = await blogService.comment(blog.id, toCommentedBlog);
+      dispatch({ type: "COMMENT_BLOG", data: commentedBlog });
     } catch (e) {
       console.log(e);
     }
@@ -63,6 +84,8 @@ const blogReducer = (state = [], action) => {
       return state.map((b) =>
         b.id === action.data.likedBlog.id ? action.data.likedBlog : b
       );
+    case "COMMENT_BLOG":
+      return state.map((b) => (b.id === action.data.id ? action.data : b));
     case "DELETE_BLOG":
       return state.filter((b) => b.id !== action.data);
     default:

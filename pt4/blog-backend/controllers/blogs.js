@@ -18,6 +18,27 @@ blogsRouter.get("/", async (req, res) => {
   res.json(blogs.map((b) => b.toJSON()));
 });
 
+blogsRouter.put("/:id/comment", async (req, res, next) => {
+  const body = req.body;
+  if (body.comment === "" || body.comment === undefined) {
+    res.status(400).json({ error: "empty comment" });
+  } else {
+    const blog = {
+      title: body.title,
+      author: body.author,
+      url: body.url,
+      likes: body.likes,
+      comments: [...body.comments, body.comment],
+    };
+
+    const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, blog, {
+      new: true,
+    }).populate("user", { username: 1, name: 1 });
+
+    res.json(updatedBlog.toJSON());
+  }
+});
+
 //get blog by id
 blogsRouter.get("/:id", async (req, res, next) => {
   const blog = await Blog.findById(req.params.id);
@@ -45,6 +66,7 @@ blogsRouter.post("/", async (req, res, next) => {
     author: body.author,
     url: body.url,
     likes: 0,
+    comments: [],
     user: user._id,
   });
 
@@ -74,6 +96,7 @@ blogsRouter.put("/:id", async (req, res, next) => {
     author: body.author,
     url: body.url,
     likes: body.likes,
+    comments: [...body.comments],
   };
 
   const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, blog, {
