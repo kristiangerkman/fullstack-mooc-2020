@@ -1,24 +1,16 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useHistory,
-} from "react-router-dom";
+import { BrowserRouter as Router, Link, useHistory } from "react-router-dom";
+
+import { Nav, Navbar } from "react-bootstrap";
 
 const Menu = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector((state) => state.user);
-  const style = {
-    display: "inline-block",
-    marginRight: "8px",
-  };
 
   return (
-    <div style={{ background: "lightblue" }}>
+    /*     <div style={{ background: "lightblue" }}>
       <Link style={{ ...style, marginLeft: "4px" }} to="/">
         Blogs
       </Link>
@@ -26,18 +18,45 @@ const Menu = () => {
         Users
       </Link>
       <p style={{ ...style }}>Logged in as {user.name}</p>
-      <button
-        style={{ ...style }}
-        type="submit"
-        onClick={() => {
-          window.localStorage.clear();
-          dispatch({ type: "LOGOUT_USER" });
-          history.push("/");
-        }}
+
+    </div> */
+    <div>
+      <Navbar
+        collapseOnSelect
+        expand="sm"
+        bg="dark"
+        variant="dark"
+        sticky="top"
       >
-        {" "}
-        Log out{" "}
-      </button>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto ">
+            <Nav.Link href="#" as="span">
+              <Link to="/">Blogs</Link>
+            </Nav.Link>
+            <Nav.Link href="#" as="span">
+              <Link to="/users">Users</Link>
+            </Nav.Link>
+            <Nav.Link href="#" as="span">
+              <Link to="/create">New post</Link>
+            </Nav.Link>
+          </Nav>
+          <Nav className="ml-auto ">
+            <button
+              className="btn btn-primary float-right "
+              type="submit"
+              onClick={() => {
+                window.localStorage.clear();
+                dispatch({ type: "LOGOUT_USER" });
+                history.push("/");
+              }}
+            >
+              {" "}
+              Log out{" "}
+            </button>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
     </div>
   );
 };

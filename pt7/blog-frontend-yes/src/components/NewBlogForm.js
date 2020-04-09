@@ -1,12 +1,17 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Table, Form, Button } from "react-bootstrap";
 import { createBlog } from "../reducers/blogsReducer";
 import { updateAllUsers } from "../reducers/allUsersReducer";
+import { BrowserRouter as Router, useHistory } from "react-router-dom";
 
-const NewBlogForm = ({ user }) => {
+const NewBlogForm = () => {
   const dispatch = useDispatch();
-
+  const history = useHistory();
+  const user = useSelector((state) => state.user);
+  if (user === null) {
+    return null;
+  }
   const handleNewBlog = async (e) => {
     e.preventDefault();
 
@@ -22,8 +27,10 @@ const NewBlogForm = ({ user }) => {
   };
 
   return (
-    <div>
+    <div className="main-section">
+      <br />
       <h2>Create new blog</h2>
+
       <Form onSubmit={handleNewBlog}>
         <Form.Group>
           <Form.Label>Title:</Form.Label>
@@ -48,8 +55,11 @@ const NewBlogForm = ({ user }) => {
             placeholder="url..."
           />{" "}
           <br />
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" className="mr-2">
             Submit
+          </Button>
+          <Button type="button" onClick={() => history.push("/")}>
+            Cancel
           </Button>
         </Form.Group>
       </Form>

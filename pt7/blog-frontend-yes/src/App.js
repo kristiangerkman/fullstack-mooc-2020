@@ -59,8 +59,10 @@ const App = () => {
       <Router>
         <Menu />
         <Notification />
-        <h2>Blog app thing </h2>
         <Switch>
+          <Route path="/create">
+            <NewBlogForm />
+          </Route>
           <Route path="/users/:id">
             <User />
           </Route>
@@ -71,11 +73,7 @@ const App = () => {
             <SingleBlog />
           </Route>
           <Route path="/">
-            <Togglable buttonLabel="Create new blog">
-              <NewBlogForm user={user} />
-            </Togglable>
-            <h2>All blogs</h2>
-            <Blogs user={user} />
+            <Blogs />
           </Route>
         </Switch>
       </Router>

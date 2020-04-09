@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import { Table } from "react-bootstrap";
 const Blogs = () => {
   const blogs = useSelector((state) => state.blogs);
@@ -18,21 +18,28 @@ const Blogs = () => {
     return <h3>No blog posts yet</h3>;
   } else {
     return (
-      <div>
-        <Table striped>
-          <tbody>
-            {blogs.map((b) => (
-              <tr key={b.id}>
-                <td>
-                  <Link to={`/blogs/${b.id}`}>
-                    {b.title} by {b.author}
-                  </Link>
-                </td>
-                <td>{b.author}</td>
+      <div className="main-section">
+        <br />
+        <h2>All blogs</h2>
+        <br />
+        <div className="modal-content">
+          <Table striped bordered hover size="sl" variant="dark">
+            <tbody>
+              <tr>
+                <td colSpan="2">Title</td>
+                <td>Author</td>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+              {blogs.map((b) => (
+                <tr key={b.id}>
+                  <td colSpan="2">
+                    <Link to={`/blogs/${b.id}`}>{b.title}</Link>
+                  </td>
+                  <td>{b.author}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
       </div>
     );
   }
