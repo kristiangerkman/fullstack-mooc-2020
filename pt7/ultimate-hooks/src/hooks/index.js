@@ -25,8 +25,9 @@ export const useResource = (baseUrl) => {
       .catch((e) => console.log(e));
   };
 
-  const create = (resource) => {
-    setResources(resources.concat(resource));
+  const create = async (resource) => {
+    const res = await axios.post(baseUrl, resource).then((r) => r.data);
+    setResources(resources.concat(res));
   };
 
   const service = {
