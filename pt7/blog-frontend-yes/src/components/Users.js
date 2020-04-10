@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 const Users = () => {
   const users = useSelector((state) => state.users);
@@ -14,14 +14,16 @@ const Users = () => {
         <tbody>
           <tr>
             <td>Username</td>
+            <td>Name</td>
             <td>No. of blogs</td>
           </tr>
           {users.map((u) => {
             return (
               <tr key={u.id}>
                 <td>
-                  <Link to={`/users/${u.id}`}>{u.name}</Link>
+                  <Link to={`/users/${u.id}`}>{u.username}</Link>
                 </td>
+                <td>{u.name}</td>
                 <td>{u.blogs.length}</td>
               </tr>
             );

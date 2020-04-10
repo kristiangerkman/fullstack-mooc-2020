@@ -1,11 +1,9 @@
 import React from "react";
 import { deleteBlog, likeBlog, commentBlog } from "../reducers/blogsReducer";
 import { useDispatch, useSelector } from "react-redux";
+import { Button } from "react-bootstrap";
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
   useParams,
   useHistory,
 } from "react-router-dom";
@@ -39,41 +37,69 @@ const SingleBlog = () => {
 
   const deleteButton = () => {
     return blog.user.id === user.userId ? (
-      <button style={styleP} onClick={deletePost}>
+      <Button variant="danger" className="float-right" onClick={deletePost}>
         Delete
-      </button>
+      </Button>
     ) : null;
   };
 
-  const styleP = {
-    marginRight: "5px",
-    marginLeft: "5px",
-    marginBottom: "5px",
-  };
-
   return (
-    <div>
-      <h2 style={{ display: "inline-block" }}>
-        {blog.title} by {blog.author}
-      </h2>
-      {deleteButton()}
-      <a style={{ display: "block" }} href={blog.url}>
-        {blog.url}
-      </a>
-      <p>{blog.likes} likes</p>
-      <button onClick={likePost}>Like</button>
-      <p>added by {blog.user.name}</p>
-      <br />
-      <form autoComplete="off" onSubmit={handleComment}>
-        <input type="text" name="comment" />
-        <button type="submit">Comment</button>
-      </form>
-      <h3>Comments</h3>
-      <ul>
-        {blog.comments.map((c, i) => (
-          <li key={i}>{c}</li>
-        ))}
-      </ul>
+    <div className="mt-3 col-10 container">
+      <h2>{blog.title}</h2>
+      <div className="mt-3">
+        <div className="mt-3 main-section border border-dark rounded-sm pt-2">
+          <div className="col-12">
+            {deleteButton()}
+            <p>Blog post by: {blog.author}</p>
+          </div>
+          <div className="col-6">
+            <p style={{ display: "inline-block" }}>Likes {blog.likes}</p>
+            <Button size="sm" className="ml-1" onClick={likePost}>
+              Like
+            </Button>
+            <br />
+            <p style={{ display: "inline-block" }}>For more info see: </p>{" "}
+            <a href={blog.url}>{blog.url}</a>
+            <p>Added by {blog.user.name}</p>
+          </div>
+        </div>
+        <h3 className="mt-3">Add comment</h3>
+        <div className="mt-3 border border-dark rounded-sm p-3">
+          <form
+            autoComplete="off"
+            onSubmit={handleComment}
+            className="form-inline"
+          >
+            <div className="form-group mx-sm-3 mb-2">
+              <input
+                className="form-control"
+                type="text"
+                id="comment"
+                name="comment"
+              />
+            </div>
+            <Button variant="primary" className="mb-2" type="submit">
+              Comment
+            </Button>
+          </form>
+        </div>
+        <h3 className="mt-3">Comments</h3>
+        <div className="mt-3 border border-dark rounded-sm p-3">
+          <div>
+            {blog.comments.length === 0 ? (
+              <div className="col-12">
+                <p>No comments yet</p>
+              </div>
+            ) : (
+              <ul>
+                {blog.comments.map((c, i) => (
+                  <li key={i}>{c}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

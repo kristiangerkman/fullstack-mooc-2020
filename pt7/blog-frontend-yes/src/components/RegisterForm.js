@@ -2,7 +2,7 @@ import React from "react";
 
 import { registerUser } from "../reducers/userReducer";
 import { useDispatch } from "react-redux";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 
 const RegisterForm = () => {
   const dispatch = useDispatch();
@@ -27,7 +27,6 @@ const RegisterForm = () => {
             <div className="form-group col-12">
               <label for="username">Username</label>
               <input
-                className="form-control"
                 className="form-control"
                 id="username"
                 type="text"

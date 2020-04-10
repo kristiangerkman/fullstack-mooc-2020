@@ -1,22 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import NewBlogForm from "./components/NewBlogForm";
 import Blogs from "./components/Blogs";
 import Notification from "./components/Notification";
-import Togglable from "./components/Toggleable";
 import Users from "./components/Users";
 import User from "./components/User";
 import Menu from "./components/Menu";
 import SingleBlog from "./components/SingleBlog";
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useHistory,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import { initBlogs } from "./reducers/blogsReducer";

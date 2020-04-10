@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../reducers/userReducer";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 
-const LoginForm = ({ setUser }) => {
+const LoginForm = () => {
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",

@@ -6,7 +6,21 @@ const Notification = () => {
   if (!notification.show) {
     return null;
   } else {
-    return <div>notification</div>;
+    if (notification.type === "good") {
+      return (
+        <div class="alert alert-success mt-2" role="alert">
+          {notification.message}
+        </div>
+      );
+    } else if (notification.type === "bad") {
+      return (
+        <div class="alert alert-danger mt-2" role="alert">
+          {notification.message}
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 };
 

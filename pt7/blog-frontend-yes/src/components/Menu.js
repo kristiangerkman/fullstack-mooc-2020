@@ -8,7 +8,7 @@ const Menu = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector((state) => state.user);
-
+  console.log("add logged in as", user, "to navbar");
   return (
     /*     <div style={{ background: "lightblue" }}>
       <Link style={{ ...style, marginLeft: "4px" }} to="/">
