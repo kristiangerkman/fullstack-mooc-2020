@@ -8,13 +8,13 @@ const Notification = () => {
   } else {
     if (notification.type === "good") {
       return (
-        <div class="alert alert-success mt-2" role="alert">
+        <div className="alert alert-success mt-2 text-center" role="alert">
           {notification.message}
         </div>
       );
     } else if (notification.type === "bad") {
       return (
-        <div class="alert alert-danger mt-2" role="alert">
+        <div className="alert alert-danger mt-2 text-center" role="alert">
           {notification.message}
         </div>
       );

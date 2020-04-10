@@ -8,6 +8,7 @@ const RegisterForm = () => {
   const dispatch = useDispatch();
   const handleRegister = async (e) => {
     e.preventDefault();
+
     dispatch(
       registerUser(
         e.target.username.value,
@@ -19,13 +20,13 @@ const RegisterForm = () => {
 
   return (
     <div className="modal-dialog">
-      <div className="main-section col-sm-10">
+      <div className="main-section col-sm-12">
         <div className="modal-content">
           <br />
           <h2 className="text-center">Register</h2>
           <form onSubmit={handleRegister} autoComplete="off">
             <div className="form-group col-12">
-              <label for="username">Username</label>
+              <label htmlFor="username">Username</label>
               <input
                 className="form-control"
                 id="username"
@@ -35,7 +36,7 @@ const RegisterForm = () => {
               />{" "}
             </div>
             <div className="form-group col-12">
-              <label for="name">Name</label>
+              <label htmlFor="name">Name</label>
               <input
                 className="form-control"
                 id="name"
@@ -45,7 +46,7 @@ const RegisterForm = () => {
               />{" "}
             </div>
             <div className="form-group col-12">
-              <label for="password">Password</label>
+              <label htmlFor="password">Password</label>
               <input
                 className="form-control"
                 id="password"

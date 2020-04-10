@@ -24,6 +24,7 @@ const NewBlogForm = () => {
       })
     );
     await dispatch(updateAllUsers(user.userId));
+    history.push("/");
   };
 
   return (

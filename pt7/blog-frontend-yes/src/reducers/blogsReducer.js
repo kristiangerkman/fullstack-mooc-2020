@@ -1,4 +1,5 @@
 import blogService from "../services/blog";
+import { setNotification } from "../reducers/notificationReducer";
 
 export const initBlogs = () => {
   return async (dispatch) => {
@@ -12,15 +13,15 @@ export const createBlog = (newBlog) => {
     try {
       const createdBlog = await blogService.create(newBlog);
       dispatch({ type: "NEW_BLOG", data: createdBlog });
+      dispatch(setNotification(`New post ${newBlog.title} created`, "good", 5));
     } catch (e) {
-      /* dispatch({
-        type: "SET_NOTIFICATION",
-        data: {
-          message: `a new blog "${newBlog.title}" by ${newBlog.author} added`,
-          show: true,
-        },
-      }); */
-      console.log("failed creating blog");
+      dispatch(
+        setNotification(
+          "Failed to create blog, make sure title and url are filled",
+          "bad",
+          5
+        )
+      );
     }
   };
 };
@@ -38,8 +39,9 @@ export const likeBlog = (blog) => {
     try {
       const likedBlog = await blogService.update(blog.id, toBelikedBlog);
       dispatch({ type: "LIKE_BLOG", data: { likedBlog } });
+      dispatch(setNotification(`${likedBlog.title} liked`, "good", 5));
     } catch (e) {
-      console.log(e);
+      dispatch(setNotification(`This post might be already deleted`, "bad", 5));
     }
   };
 };
@@ -58,8 +60,11 @@ export const commentBlog = (blog, comment) => {
     try {
       const commentedBlog = await blogService.comment(blog.id, toCommentedBlog);
       dispatch({ type: "COMMENT_BLOG", data: commentedBlog });
+      dispatch(
+        setNotification(`${toCommentedBlog.title} comment added`, "good", 5)
+      );
     } catch (e) {
-      console.log(e);
+      dispatch(setNotification(`This post might be alredy deleted`, "bad", 5));
     }
   };
 };
@@ -69,8 +74,9 @@ export const deleteBlog = (id) => {
     try {
       await blogService.deleteBlog(id);
       dispatch({ type: "DELETE_BLOG", data: id });
+      dispatch(setNotification(`Deleted successfully`, "good", 5));
     } catch (e) {
-      //setnotification already deleted
+      dispatch(setNotification(`This post might be alredy deleted`, "bad", 5));
     }
   };
 };

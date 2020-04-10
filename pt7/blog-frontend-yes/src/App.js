@@ -32,17 +32,21 @@ const App = () => {
     return (
       <div className="container">
         <Router>
-          <Switch>
-            <Route path="/register">
-              <RegisterForm />
-            </Route>
-            <Route path="/login">
-              <LoginForm />
-            </Route>
-            <Route path="/">
-              <LoginForm />
-            </Route>
-          </Switch>
+          <div className="col-12 container">
+            <Notification />
+
+            <Switch>
+              <Route path="/register">
+                <RegisterForm />
+              </Route>
+              <Route path="/login">
+                <LoginForm />
+              </Route>
+              <Route path="/">
+                <LoginForm />
+              </Route>
+            </Switch>
+          </div>
         </Router>
       </div>
     );

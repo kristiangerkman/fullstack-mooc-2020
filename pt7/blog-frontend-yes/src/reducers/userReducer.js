@@ -1,6 +1,7 @@
 import loginService from "../services/login";
 import blogService from "../services/blog";
 import userService from "../services/user";
+import { setNotification } from "./notificationReducer";
 
 export const initUser = () => {
   return async (dispatch) => {
@@ -22,9 +23,9 @@ export const loginUser = (credential) => {
       dispatch({ type: "LOGIN_USER", data: user });
       blogService.setToken(user.token);
       window.localStorage.setItem("loggedInUser", JSON.stringify(user));
+      dispatch(setNotification("Welcome", "good", 5));
     } catch (e) {
-      //setnotification
-      console.log(e);
+      dispatch(setNotification("Invalid username or password", "bad", 5));
     }
   };
 };
@@ -41,8 +42,15 @@ export const registerUser = (username, name, password) => {
       dispatch({ type: "LOGIN_USER", data: user });
       blogService.setToken(user.token);
       window.localStorage.setItem("loggedInUser", JSON.stringify(user));
+      dispatch(setNotification("User created! Welcome!", "good", 10));
     } catch (e) {
-      console.log(e);
+      dispatch(
+        setNotification(
+          "Username and password must be atleast 3 characters long",
+          "bad",
+          5
+        )
+      );
     }
   };
 };

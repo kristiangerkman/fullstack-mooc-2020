@@ -1,7 +1,7 @@
 const initialState = {
-  message: "message",
-  type: "bad",
-  show: true,
+  message: "",
+  type: "",
+  show: false,
   timerID: 0,
 };
 
