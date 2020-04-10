@@ -8,6 +8,7 @@ const App = () => {
   const [filter, setFilter] = useState("");
   const [filtered, setFiltered] = useState([]);
   const [country, setCountry] = useState({});
+  const [weather, setWeather] = useState(null);
 
   useEffect(() => {
     axios
@@ -33,13 +34,13 @@ const App = () => {
         </div>
       );
     } else if (filtered.length === 1 || country.name !== undefined) {
-      console.log(country);
-      return <Country country={country} />;
+      return (
+        <Country country={country} weather={weather} setWeather={setWeather} />
+      );
     } else {
       return <p>Search for countries</p>;
     }
   };
-  console.log(country);
 
   return (
     <div>

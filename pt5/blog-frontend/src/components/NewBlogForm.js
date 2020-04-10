@@ -27,7 +27,11 @@ const NewBlogForm = ({ setNotification, user, allBlogs, setAllBlogs }) => {
         message: `a new blog "${newBlog.title}" by ${newBlog.author} added`,
       });
     } catch (e) {
-      console.log(e);
+      setNotification({
+        type: "bad",
+        show: true,
+        message: `Title and url are required`,
+      });
     }
   };
 

@@ -48,7 +48,7 @@ const Blogs = ({ user, blog, setBlogs, blogs, likePost }) => {
 
   return (
     <div>
-      <div style={styleDiv}>
+      <div style={styleDiv} id="blogs-container">
         <p
           style={{
             marginRight: "5px",
@@ -58,15 +58,23 @@ const Blogs = ({ user, blog, setBlogs, blogs, likePost }) => {
         >
           {blog.title} by {blog.author}
         </p>
-        <button onClick={toggleVisibility} style={hideWhenVisible}>
+        <button
+          id="show-button"
+          onClick={toggleVisibility}
+          style={hideWhenVisible}
+        >
           Show
         </button>
-        <button onClick={toggleVisibility} style={showWhenVisible}>
+        <button
+          id="hide-button"
+          onClick={toggleVisibility}
+          style={showWhenVisible}
+        >
           Hide
         </button>
         <div style={showWhenVisible} className="togglableVisibility">
           <span style={{ ...styleP, display: "block" }}>{blog.url}</span>
-          <span style={{ ...styleP, display: "inline-block" }}>
+          <span id="likes" style={{ ...styleP, display: "inline-block" }}>
             Likes {blog.likes}
           </span>
           <button id="like-button" onClick={handleLike} style={showWhenVisible}>

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import weatherService from "../weatherService";
-const Country = ({ country }) => {
+const Country = ({ country, weather, setWeather }) => {
   const c = country;
-  const [weather, setWeather] = useState(null);
+
   weatherService.getWeather(c.name).then((r) => setWeather(r));
   if (weather !== null && weather.success !== false) {
     console.log(weather);
