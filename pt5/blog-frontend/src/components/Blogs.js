@@ -13,6 +13,7 @@ const Blogs = ({ user, blogs, setBlogs }) => {
       author: blog.author,
       url: blog.url,
       likes: blog.likes + 1,
+      comments: [...blog.comments],
     };
     try {
       const returnedBlog = await BlogService.update(blog.id, likedBlog);
