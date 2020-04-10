@@ -30,23 +30,29 @@ const App = ({ store }) => {
       <button onClick={ok}>ok</button>
       <button onClick={bad}>bad</button>
       <button onClick={zero}>zero</button>
-      <div>good {store.getState().good}</div>
-      <div>ok {store.getState().ok}</div>
-      <div>bad {store.getState().bad}</div>
-      <div>all {all === 1 ? 0 : all}</div>
-      <div>
-        average{" "}
-        {isNaN((store.getState().good - store.getState().bad) / all)
-          ? 0
-          : (store.getState().good - store.getState().bad) / all}
-      </div>
-      <div>
-        positive{" "}
-        {isNaN((store.getState().good / all) * 100)
-          ? 0
-          : (store.getState().good / all) * 100}{" "}
-        %
-      </div>
+      {all === 0 ? (
+        <p>No votes so far</p>
+      ) : (
+        <div>
+          <div>good {store.getState().good}</div>
+          <div>ok {store.getState().ok}</div>
+          <div>bad {store.getState().bad}</div>
+          <div>all {all === 1 ? 0 : all}</div>
+          <div>
+            average{" "}
+            {isNaN((store.getState().good - store.getState().bad) / all)
+              ? 0
+              : (store.getState().good - store.getState().bad) / all}
+          </div>
+          <div>
+            positive{" "}
+            {isNaN((store.getState().good / all) * 100)
+              ? 0
+              : (store.getState().good / all) * 100}{" "}
+            %
+          </div>
+        </div>
+      )}
     </div>
   );
 };

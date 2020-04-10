@@ -23,8 +23,8 @@ I mean who even cares.. -3
 &nbsp;&nbsp;&nbsp;&nbsp;blog-frontend: :heavy_check_mark: -1<br/>
 
 **_pt6_**<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;redux-anecdotes: <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;redux-unicafe: <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;redux-anecdotes: :heavy_check_mark: <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;redux-unicafe: :heavy_check_mark: <br/>
 
 **_pt7_**<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;blog-frontend: :heavy_check_mark:<br/>
