@@ -32,8 +32,11 @@ const Authors = (props) => {
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    const born = Number(number);
-    updateAuthor({ variables: { name, born } });
+    if (name !== "" && name !== 1) {
+      const born = Number(number);
+      updateAuthor({ variables: { name, born } });
+      setNumber("");
+    }
   };
 
   return (
@@ -59,6 +62,7 @@ const Authors = (props) => {
       <form autoComplete="off" onSubmit={handleUpdate}>
         name
         <select onChange={({ target }) => setName(target.value)} value={name}>
+          <option value="1">- select author -</option>
           {authors.map((a) => (
             <option key={a.name} value={a.name}>
               {a.name}
