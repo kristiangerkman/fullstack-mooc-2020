@@ -10,7 +10,7 @@ const Books = (props) => {
   if (booksData.loading) {
     return <p>loading...</p>;
   }
-
+  console.log(booksData);
   const books = booksData.data.allBooks.map((b) => b);
 
   return (

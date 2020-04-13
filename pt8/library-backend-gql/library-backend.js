@@ -1,5 +1,21 @@
-const { ApolloServer, gql } = require("apollo-server");
+const { ApolloServer, UserInputError, gql } = require("apollo-server");
 const uuid = require("uuid/v1");
+
+const mongoose = require("mongoose");
+const Book = require("./models/book");
+const Author = require("./models/author");
+const config = require("./utils/config");
+
+mongoose.set("useFindAndModify", false);
+
+mongoose
+  .connect(config.MONGODB_URI, { useNewUrlParser: true })
+  .then(() => {
+    console.log("connected to mongoDB");
+  })
+  .catch((e) => {
+    console.log("error connectiong to mongodb", e.message);
+  });
 
 let authors = [
   {
@@ -94,9 +110,9 @@ const typeDefs = gql`
   type Book {
     title: String!
     published: Int!
-    author: String!
+    author: Author!
+    genres: [String!]!
     id: ID!
-    genres: [String]
   }
 
   type Query {
@@ -120,25 +136,39 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    bookCount: () => books.length,
-    authorCount: () => authors.length,
-    allBooks: (root, args) => {
-      console.log(args);
-      if (args.author) {
-        const filtered = books.filter((b) => b.author === args.author);
-        return filtered;
+    bookCount: () => Book.collection.countDocuments(),
+    authorCount: () => Author.collection.countDocuments(),
+    allBooks: async (root, args) => {
+      /*       if (args.author) {
+        try {
+          return await Book.find({ author: args.author });
+        } catch (e) {
+          console.log("no book by that author");
+          return null;
+        }
       } else if (args.genre) {
-        const byGenre = books.filter((b) => b.genres.includes(args.genre));
-        return byGenre;
+        try {
+          return await Book.find({ genres: args.genre });
+        } catch (e) {
+          console.log("no such genre found");
+          return null;
+        }
       } else if (args.genre && args.author) {
-        const filtered = books.filter((b) => b.author === args.author);
-        const byGenre = filtered.filter((b) => b.genres.includes(args.genre));
-        return byGenre;
-      } else {
-        return books;
-      }
+        try {
+          return await Book.find({ author: args.author, genres: args.genre });
+        } catch (e) {
+          console.log("not found");
+          return null;
+        }
+      } else { */
+      //try {
+      return Book.find({});
+      /*       } catch (e) {
+        console.log(e);
+      } */
+      //}
     },
-    allAuthors: () => authors,
+    allAuthors: () => Author.find({}),
   },
   Mutation: {
     addBook: (root, args) => {
@@ -167,6 +197,15 @@ const resolvers = {
       const n = books.filter((b) => b.author === root.name);
 
       return Number(n.length);
+    },
+  },
+  Book: {
+    author: async (root) => {
+      try {
+        return await Author.find({ name: root.author.name });
+      } catch (e) {
+        console.log("asd");
+      }
     },
   },
 };
