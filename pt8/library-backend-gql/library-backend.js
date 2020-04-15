@@ -1,4 +1,9 @@
-const { ApolloServer, UserInputError, gql } = require("apollo-server");
+const {
+  ApolloServer,
+  UserInputError,
+  gql,
+  AuthenticationError,
+} = require("apollo-server");
 const jwt = require("jsonwebtoken");
 
 const mongoose = require("mongoose");
@@ -106,16 +111,14 @@ const resolvers = {
     },
   },
   Mutation: {
-    addBook: async (root, args) => {
-      const auth = req ? req.headers.authorization : null;
-      if (auth && auth.toLowerCase().startsWith("bearer ")) {
-        const decodedToken = jwt.verify(auth.substring(7), config.SECRET);
-        if (decodedToken.id !== currentUser.id) {
-          throw new UserInputError("Invalid token");
-        }
-      } else {
-        throw new UserInputError("Invalid token");
+    addBook: async (root, args, context) => {
+      const currentUser = context.currentUser;
+      console.log(currentUser);
+
+      if (!currentUser) {
+        throw new AuthenticationError("invalid token");
       }
+
       const checkIfalreayExists = await Author.findOne({ name: args.author });
       console.log(checkIfalreayExists);
 

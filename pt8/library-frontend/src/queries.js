@@ -52,3 +52,43 @@ export const UPDATE_AUTHOR = gql`
     }
   }
 `;
+
+export const CREATE_USER = gql`
+  mutation createUser($username: String!, $favoriteGenre: String!) {
+    createUser(username: $username, favoriteGenre: $favoriteGerne) {
+      name
+      favoriteGenre
+      id
+    }
+  }
+`;
+
+export const LOGIN_USER = gql`
+  mutation loginUser($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+      value
+    }
+  }
+`;
+
+export const GET_USER = gql`
+  query {
+    me {
+      username
+      id
+      favoriteGenre
+    }
+  }
+`;
+
+export const GET_BOOK_GENRE = gql`
+  query allBooksByGenre($genre: String!) {
+    allBooks(genre: $genre) {
+      title
+      author {
+        name
+      }
+      published
+    }
+  }
+`;
