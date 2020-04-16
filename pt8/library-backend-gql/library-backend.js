@@ -80,6 +80,7 @@ const resolvers = {
     bookCount: () => Book.collection.countDocuments(),
     authorCount: () => Author.collection.countDocuments(),
     allBooks: async (root, args) => {
+      console.log(args);
       if (args.author) {
         try {
           return await Book.find({ author: args.author });

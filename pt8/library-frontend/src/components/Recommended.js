@@ -10,18 +10,21 @@ const Recommended = ({ user, show }) => {
     if (user) {
       getFav({ variables: { genre: user.favoriteGenre } });
     }
+  }, [show]);
+
+  useEffect(() => {
     if (result.data) {
-      console.log("asd");
       console.log(result.data);
       setBooks(result.data.allBooks);
     }
-  }, [result.data, user]);
-
+  }, [result.data]); // eslint-disable-line
+  console.log(result.data);
   if (!show) {
     return null;
   }
-  if (books) {
-    console.log(books);
+
+  if (result.loading) {
+    return <p>loading...</p>;
   }
 
   return (
@@ -31,7 +34,26 @@ const Recommended = ({ user, show }) => {
       <p>
         books in your favorite genre <b>{user.favoriteGenre}</b>
       </p>
-      {books ? <p>asd</p> : null}
+      {books ? (
+        <div>
+          <table>
+            <tbody>
+              <tr>
+                <th></th>
+                <th>author</th>
+                <th>published</th>
+              </tr>
+              {books.map((a) => (
+                <tr key={a.title}>
+                  <td>{a.title}</td>
+                  <td>{a.author.name}</td>
+                  <td>{a.published}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : null}
     </div>
   );
 };

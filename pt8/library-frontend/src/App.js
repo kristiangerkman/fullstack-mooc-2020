@@ -5,7 +5,7 @@ import Authors from "./components/Authors";
 import Books from "./components/Books";
 import NewBook from "./components/NewBook";
 import Login from "./components/Login";
-import { GET_USER } from "./queries";
+import { GET_USER, ALL_BOOKS } from "./queries";
 import Recommended from "./components/Recommended";
 
 const App = () => {

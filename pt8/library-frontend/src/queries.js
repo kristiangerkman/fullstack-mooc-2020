@@ -14,6 +14,7 @@ export const ALL_BOOKS = gql`
   query {
     allBooks {
       title
+      genres
       author {
         name
       }
@@ -36,10 +37,11 @@ export const CREATE_BOOK = gql`
       genres: $genres
     ) {
       title
-      published
+      genres
       author {
         name
       }
+      published
     }
   }
 `;
@@ -88,6 +90,7 @@ export const GET_BOOK_GENRE = gql`
       author {
         name
       }
+      genres
       published
     }
   }

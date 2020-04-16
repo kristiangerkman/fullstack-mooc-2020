@@ -1,18 +1,61 @@
-import React from "react";
-import { useQuery } from "@apollo/client";
-import { ALL_BOOKS } from "../queries";
+import React, { useState, useEffect } from "react";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import { GET_BOOK_GENRE, ALL_BOOKS } from "../queries";
 
 const Books = (props) => {
-  const booksData = useQuery(ALL_BOOKS);
+  const [getBooks, result] = useLazyQuery(GET_BOOK_GENRE);
+  const [filter, setFilter] = useState("");
+  const [genres, setGenres] = useState([]);
+  const [books, setBooks] = useState(null);
+  const allBooks = useQuery(ALL_BOOKS);
+
+  useEffect(() => {
+    if (allBooks.data && filter === "") {
+      let tmpGenres = [];
+      allBooks.data.allBooks.map((b) =>
+        b.genres.map((g) => {
+          return tmpGenres.includes(g)
+            ? null
+            : (tmpGenres = tmpGenres.concat(g));
+        })
+      );
+      setGenres(tmpGenres);
+      setBooks(allBooks.data.allBooks);
+    }
+    if (result.data) {
+      setBooks(result.data.allBooks);
+    }
+  }, [allBooks.data, result.data]); // eslint-disable-line
+
   if (!props.show) {
     return null;
   }
-  if (booksData.loading) {
+
+  if (allBooks.loading || result.loading) {
+    console.log("asdsad");
     return <p>loading...</p>;
   }
-  console.log(booksData);
-  const books = booksData.data.allBooks.map((b) => b);
 
+  const onFilterChange = (value) => {
+    setFilter(value);
+    getBooks({ variables: { genre: value } });
+  };
+
+  const filterDrop = () => {
+    return (
+      <select
+        onChange={({ target }) => onFilterChange(target.value)}
+        value={filter}
+      >
+        <option value="">All genres</option>
+        {genres.map((g) => (
+          <option key={g} value={g}>
+            {g}
+          </option>
+        ))}
+      </select>
+    );
+  };
   return (
     <div>
       <h2>books</h2>
@@ -33,6 +76,7 @@ const Books = (props) => {
           ))}
         </tbody>
       </table>
+      {filterDrop()}
     </div>
   );
 };
