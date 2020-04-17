@@ -32,7 +32,6 @@ const Books = (props) => {
   }
 
   if (allBooks.loading || result.loading) {
-    console.log("asdsad");
     return <p>loading...</p>;
   }
 

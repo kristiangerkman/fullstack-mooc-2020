@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useApolloClient, useQuery } from "@apollo/client";
+import { useApolloClient, useQuery, useSubscription } from "@apollo/client";
 
 import Authors from "./components/Authors";
 import Books from "./components/Books";
 import NewBook from "./components/NewBook";
 import Login from "./components/Login";
-import { GET_USER, ALL_BOOKS } from "./queries";
+import { GET_USER, ALL_BOOKS, BOOK_ADDED } from "./queries";
 import Recommended from "./components/Recommended";
 
 const App = () => {
@@ -15,10 +15,30 @@ const App = () => {
   const client = useApolloClient();
   const userData = useQuery(GET_USER);
 
+  const updateBookCache = (addedBook) => {
+    const includedIn = (set, object) =>
+      set.map((b) => b.id).includes(object.id);
+    const booksInStore = client.readQuery({ query: ALL_BOOKS });
+    if (!includedIn(booksInStore.allBooks, addedBook)) {
+      client.writeQuery({
+        query: ALL_BOOKS,
+        data: { allBooks: booksInStore.allBooks.concat(addedBook) },
+      });
+    }
+  };
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      const addedBook = subscriptionData.data.bookAdded;
+      console.log(`${addedBook.title} added`);
+      updateBookCache(addedBook);
+    },
+  });
+
   useEffect(() => {
-    const token = localStorage.getItem("library-user-token");
-    if (token) {
-      setToken(token);
+    const tokenFromStorage = localStorage.getItem("library-user-token");
+    if (tokenFromStorage) {
+      setToken(tokenFromStorage);
       if (!userData.loading) {
         setUser(userData.data.me);
       }
@@ -52,7 +72,7 @@ const App = () => {
 
       <Books show={page === "books"} />
 
-      <NewBook show={page === "add"} />
+      <NewBook show={page === "add"} updateCache={updateBookCache} />
       <Recommended show={page === "recommended"} user={user} />
       <Login show={page === "login"} setToken={setToken} setPage={setPage} />
     </div>

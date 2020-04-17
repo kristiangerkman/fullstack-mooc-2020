@@ -7,18 +7,15 @@ const Recommended = ({ user, show }) => {
   const [getFav, result] = useLazyQuery(GET_BOOK_GENRE);
 
   useEffect(() => {
-    if (user) {
+    if (user && show) {
       getFav({ variables: { genre: user.favoriteGenre } });
-    }
-  }, [show]);
-
-  useEffect(() => {
-    if (result.data) {
       console.log(result.data);
+    }
+    if (result.data) {
       setBooks(result.data.allBooks);
     }
-  }, [result.data]); // eslint-disable-line
-  console.log(result.data);
+  }, [result.data, user, show]); // eslint-disable-line
+
   if (!show) {
     return null;
   }
