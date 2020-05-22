@@ -1,7 +1,6 @@
 # fullstack-mooc
 
-pt0
-I mean who even cares.. -3
+pt0 -3
 
 **_pt1_** :heavy_check_mark:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;course-information: :heavy_check_mark:<br/>
